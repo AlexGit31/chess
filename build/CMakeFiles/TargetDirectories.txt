@@ -1,0 +1,4 @@
+/Users/alexisevaristo/Documents/Projets/12-HPC/HPC-chess/1_AI_training/build/CMakeFiles/selfplay.dir
+/Users/alexisevaristo/Documents/Projets/12-HPC/HPC-chess/1_AI_training/build/CMakeFiles/arena.dir
+/Users/alexisevaristo/Documents/Projets/12-HPC/HPC-chess/1_AI_training/build/CMakeFiles/edit_cache.dir
+/Users/alexisevaristo/Documents/Projets/12-HPC/HPC-chess/1_AI_training/build/CMakeFiles/rebuild_cache.dir
