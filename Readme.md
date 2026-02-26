@@ -120,8 +120,9 @@ cd build
 ./arena
 ```
 
-Note that it is also possible to begin by training a first neural network to predict the value of a valuation function of the boards
+**Note** that it is also possible to begin by training a first neural network to predict the value of a valuation function of the boards
 and then use this neural network and its weights for the Actor-Critic training so it doesn't start from scratch.
+For that purpose you have the two code `generate_data.c` and `train.py`.
 
 ---
 
