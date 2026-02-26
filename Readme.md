@@ -16,18 +16,19 @@ The `engine.c` file is the beating heart of the project. It uses no external dep
 ### Play Against the Classic AI
 
 An interactive script `play.c` has been created to play against the "material" version of the AI directly in the terminal (navigating moves with arrow keys).
-` ` `bash
+
+```bash
 gcc -O3 -march=native -o play_chess play.c
 ./play_chess
-` ` `
-_(Note: Remove the spaces between the backticks when using this in your actual markdown file)_
+```
 
 ### Use `engine.c` as an API
 
 To use the engine in your own projects, simply include the file (ensure the original `main` function is renamed or commented out):
-` ` `c
+
+```C
 #include "engine.c"
-` ` `
+```
 
 #### Main Structures
 
@@ -62,15 +63,18 @@ _(macOS Users: If LibTorch is blocked by Gatekeeper, run `sudo xattr -r -d com.a
 #### Step 1: Initialize the Actor-Critic Architecture
 
 Create the `.pt` model (TorchScript) readable by C++.
-` ` `bash
+
+```bash
 python rl_model.py
-` ` `
+```
+
 _Generates `actor_critic_model.pt`._
 
 #### Step 2: Compile the C++ Executables (HPC)
 
 The self-play factory (`selfplay.cpp`) and the evaluation arena (`arena.cpp`) must be compiled by linking LibTorch.
-` ` `bash
+
+```bash
 mkdir build
 cd build
 
@@ -78,37 +82,46 @@ cd build
 
 cmake -DCMAKE_PREFIX_PATH=/absolute/path/to/libtorch ..
 cmake --build . --config Release
-` ` `
+```
 
 #### Step 3: Self-Play (Experience Generation)
 
 The AI (The Actor) plays dozens of games against itself asynchronously and saves its decisions.
-` ` `bash
+
+```bash
 cd build
 cp ../actor_critic_model.pt .
 ./selfplay
-` ` `
+```
+
 _Generates `rl_dataset.csv`._
 
 #### Step 4: Mutation (RL Training)
 
 The AI updates its neural networks: the probability of moves that led to a win increases, while others decrease.
-` ` `bash
+
+```bash
 
 # From the root directory
 
 python train_rl.py
-` ` `*Updates`actor_critic_model.pt`in the`build/`folder and generates a`loss_curve.png` plot.\*
+```
+
+\*Updates`actor_critic_model.pt`in the`build/`folder and generates a`loss_curve.png` plot.\*
 
 **Repeat steps 3 and 4** to continually improve the AI's skill level (Continuous Training).
 
 #### Step 5: The Arena (Strength Test)
 
 Pit your newly trained AI (White) against the classic material Alpha-Beta engine (Black).
-` ` `bash
+
+```bash
 cd build
 ./arena
-` ` `
+```
+
+Note that it is also possible to begin by training a first neural network to predict the value of a valuation function of the boards
+and then use this neural network and its weights for the Actor-Critic training so it doesn't start from scratch.
 
 ---
 
